@@ -12,42 +12,31 @@ import net.minecraftforge.common.BiomeManager.BiomeType;
 
 import java.util.List;
 
-public class GenLayerBiomeAM extends GenLayerAM
-{
-    public GenLayerBiomeAM(long seed, GenLayer parent)
-    {
+public class GenLayerBiomeAM extends GenLayerAM {
+    public GenLayerBiomeAM(long seed, GenLayer parent) {
         super(seed, parent);
     }
 
     @Override
-    public int[] getInts(int offsetX, int offsetY, int width, int height)
-    {
+    public int[] getInts(int offsetX, int offsetY, int width, int height) {
         int[] input = parent.getInts(offsetX, offsetY, width, height);
         int[] outputBiomeIDs = IntCache.getIntCache(width * height);
 
-        for (int y = 0; y < height; ++y)
-        {
-            for (int x = 0; x < width; ++x)
-            {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
                 initChunkSeed((long) (x + offsetX), (long) (y + offsetY));
                 int i = input[x + y * width];
                 int l = (i & 3840) >> 8;
                 i &= -3841;
 
-                if (i == Biome.getIdForBiome(Biomes.OCEAN))
-                {
+                if (i == Biome.getIdForBiome(Biomes.OCEAN)) {
                     outputBiomeIDs[x + y * width] = Biome.getIdForBiome(AMBiomes.LAKE);
-                }
-                else if (isBiomeOceanic(i))
-                {
+                } else if (isBiomeOceanic(i)) {
                     outputBiomeIDs[x + y * width] = i;
-                }
-                else
-                {
+                } else {
                     BiomeType type = BiomeProviderAM.getBiomeTypeByID(i - 1);
 
-                    if (type != null)
-                    {
+                    if (type != null) {
                         outputBiomeIDs[x + y * width] = Biome.getIdForBiome(getWeightedBiomeEntry(type).biome);
                     }
                 }
@@ -57,8 +46,7 @@ public class GenLayerBiomeAM extends GenLayerAM
         return outputBiomeIDs;
     }
 
-    private BiomeEntry getWeightedBiomeEntry(BiomeType type)
-    {
+    private BiomeEntry getWeightedBiomeEntry(BiomeType type) {
         List<BiomeEntry> biomeList = BiomeProviderAM.getBiomes(type);
         int totalWeight = WeightedRandom.getTotalWeight(biomeList);
         int weight = nextInt(totalWeight);

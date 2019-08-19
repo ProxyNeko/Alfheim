@@ -13,8 +13,7 @@ import zaggy1024.item.ItemMulti;
 import java.util.Arrays;
 import java.util.List;
 
-public class ComboOres extends VariantsOfTypesCombo<VariantOre>
-{
+public class ComboOres extends VariantsOfTypesCombo<VariantOre> {
     public static final ObjectType<VariantOre, BlockOreAM, ItemBlockMulti<VariantOre>> ORE =
             ObjectType.createBlock(VariantOre.class, "ore", BlockOreAM.class)
                     .setUseSeparateVariantJsons(false)
@@ -39,24 +38,20 @@ public class ComboOres extends VariantsOfTypesCombo<VariantOre>
 
     public static final List<? extends ObjectType<VariantOre, ?, ?>> TYPES = Arrays.asList(ORE, BLOCK, DROP, INGOT);
 
-    public ComboOres()
-    {
+    public ComboOres() {
         super("ores", TYPES, VariantOre.class, Arrays.asList(VariantOre.values()));
         setNames(AlfheimrsMoons.MOD_ID, AlfheimrsMoons.UNLOCALIZED_PREFIX);
     }
 
-    public static ObjectType<VariantOre, Block, ItemMulti<VariantOre>> getSmeltingOutputType(VariantOre variant)
-    {
+    public static ObjectType<VariantOre, Block, ItemMulti<VariantOre>> getSmeltingOutputType(VariantOre variant) {
         return variant.hasIngot() ? INGOT : DROP;
     }
 
-    public ItemStack getSmeltingOutput(VariantOre variant, int stackSize)
-    {
+    public ItemStack getSmeltingOutput(VariantOre variant, int stackSize) {
         return getStack(getSmeltingOutputType(variant), variant, stackSize);
     }
 
-    public ItemStack getSmeltingOutput(VariantOre variant)
-    {
+    public ItemStack getSmeltingOutput(VariantOre variant) {
         return getSmeltingOutput(variant, 1);
     }
 }

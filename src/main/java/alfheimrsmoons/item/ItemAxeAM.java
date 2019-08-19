@@ -10,16 +10,14 @@ import zaggy1024.combo.VariantsOfTypesCombo;
 import zaggy1024.combo.VariantsOfTypesCombo.ItemVariantCount;
 
 @ItemVariantCount(1)
-public class ItemAxeAM extends ItemAxe
-{
+public class ItemAxeAM extends ItemAxe {
     public final VariantsOfTypesCombo<VariantToolMaterial> owner;
     public final ObjectType<VariantToolMaterial, Block, ? extends ItemAxeAM> type;
     public final VariantToolMaterial variant;
 
     public ItemAxeAM(VariantsOfTypesCombo<VariantToolMaterial> owner,
                      ObjectType<VariantToolMaterial, Block, ? extends ItemAxeAM> type,
-                     VariantToolMaterial variant, Class<VariantToolMaterial> variantClass)
-    {
+                     VariantToolMaterial variant, Class<VariantToolMaterial> variantClass) {
         super(variant.getMaterial(), variant.getAttackDamage(), variant.getAxeSpeed());
 
         this.owner = owner;
@@ -30,8 +28,7 @@ public class ItemAxeAM extends ItemAxe
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack)
-    {
-        return owner.getUnlocalizedName(stack, super.getUnlocalizedName(stack));
+    public String getTranslationKey(ItemStack stack) {
+        return owner.getTranslationKey(stack, super.getTranslationKey(stack));
     }
 }

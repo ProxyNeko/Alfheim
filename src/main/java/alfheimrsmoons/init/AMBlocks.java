@@ -2,19 +2,24 @@ package alfheimrsmoons.init;
 
 import alfheimrsmoons.AlfheimrsMoons;
 import alfheimrsmoons.block.*;
+import alfheimrsmoons.block.fluid.BlockEitr;
+import alfheimrsmoons.block.fluid.BlockSacredWater;
+import alfheimrsmoons.block.fluid.FluidEitr;
+import alfheimrsmoons.block.fluid.FluidSacredWater;
 import alfheimrsmoons.combo.*;
 import alfheimrsmoons.network.Proxy;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.registries.IForgeRegistry;
 import zaggy1024.combo.ObjectType;
 import zaggy1024.combo.VariantsCombo;
 import zaggy1024.combo.VariantsOfTypesCombo;
 import zaggy1024.combo.variant.IMetadata;
 import zaggy1024.item.ItemBlockMulti;
 
-public class AMBlocks
-{
+public class AMBlocks {
     public static final BlockMannaOre MANNA_ORE = new BlockMannaOre();
 
     public static final BlockYggdrasilLeaves YGGDRASIL_LEAVES = new BlockYggdrasilLeaves();
@@ -87,9 +92,13 @@ public class AMBlocks
 
     public static final ComboBioluminescence BIOLUMINESCENCE = new ComboBioluminescence();
 
-    public static void registerBlocks()
-    {
+    public static BlockSacredWater SACRED_WATER;
+    public static BlockEitr EITR;
+
+
+    public static void registerBlocks(IForgeRegistry<Block> registry) {
         Proxy proxy = AlfheimrsMoons.proxy;
+        proxy.initBlockRegistry(registry);
         proxy.registerBlock(MANNA_ORE);
         proxy.registerBlock(YGGDRASIL_LEAVES);
         proxy.registerBlock(SOIL);
@@ -113,6 +122,10 @@ public class AMBlocks
         BIOLUMINESCENCE.registerVariants(proxy, ComboBioluminescence.TORCH);
         BIOLUMINESCENCE.registerVariants(proxy, ComboBioluminescence.LAMP);
 
+
+    }
+
+    public static void registerOres() {
         registerVariantOres("logWood", TREES, ComboTrees.LOG);
         registerVariantOres("plankWood", TREES, ComboTrees.PLANKS);
         registerVariantOres("treeSapling", TREES, ComboTrees.SAPLING);
@@ -120,10 +133,21 @@ public class AMBlocks
         registerVariantOres("torch", BIOLUMINESCENCE, ComboBioluminescence.TORCH);
     }
 
-    private static <V extends IMetadata<V>> void registerVariantOres(String name, VariantsOfTypesCombo<V> combo, ObjectType<V, ?, ?> type)
-    {
-        for (Block block : combo.getBlocks(type))
-        {
+    public static void registerFluids() {
+        Proxy proxy = AlfheimrsMoons.proxy;
+
+        Fluid sacredWaterFluid = proxy.registerFluid(FluidSacredWater.instance);
+        SACRED_WATER = new BlockSacredWater(sacredWaterFluid);
+        proxy.registerFluidBlock(sacredWaterFluid, SACRED_WATER, "sacred_water");
+
+        Fluid eitrFluid = proxy.registerFluid(FluidEitr.instance);
+        EITR = new BlockEitr(eitrFluid);
+        proxy.registerFluidBlock(eitrFluid, EITR, "eitr");
+
+    }
+
+    private static <V extends IMetadata<V>> void registerVariantOres(String name, VariantsOfTypesCombo<V> combo, ObjectType<V, ?, ?> type) {
+        for (Block block : combo.getBlocks(type)) {
             OreDictionary.registerOre(name, new ItemStack(block, 1, OreDictionary.WILDCARD_VALUE));
         }
     }

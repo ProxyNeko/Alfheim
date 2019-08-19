@@ -12,6 +12,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,8 +28,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class BlockDeadPlant extends BlockDeadBush
-{
+public class BlockDeadPlant extends BlockDeadBush {
     @BlockProperties
     public static final IProperty<?>[] PROPERTIES = new IProperty[0];
 
@@ -40,8 +40,7 @@ public class BlockDeadPlant extends BlockDeadBush
 
     public BlockDeadPlant(VariantsOfTypesCombo<VariantDeadPlant> owner,
                           ObjectType<VariantDeadPlant, ? extends BlockFlowerAM, ? extends ItemBlockMulti<VariantDeadPlant>> type,
-                          List<VariantDeadPlant> variants, Class<VariantDeadPlant> variantClass)
-    {
+                          List<VariantDeadPlant> variants, Class<VariantDeadPlant> variantClass) {
         super();
 
         this.owner = owner;
@@ -60,56 +59,47 @@ public class BlockDeadPlant extends BlockDeadBush
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list)
-    {
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
         owner.fillSubItems(type, variants, list);
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         return BlockStateToMetadata.getBlockStateFromMeta(getDefaultState(), meta, variantProperty);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         return BlockStateToMetadata.getMetaForBlockState(state, variantProperty);
     }
 
     @Override
-    protected boolean canSustainBush(IBlockState state)
-    {
+    protected boolean canSustainBush(IBlockState state) {
         return state.getBlock() instanceof BlockGrassySoil || state.getBlock() instanceof BlockSoil || super.canSustainBush(state);
     }
 
     @Override
-    public int quantityDropped(IBlockState state, int fortune, Random random)
-    {
+    public int quantityDropped(IBlockState state, int fortune, Random random) {
         return state.getValue(variantProperty) == VariantDeadPlant.ELM_SAPLING ? random.nextInt(3) : 0;
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return state.getValue(variantProperty) == VariantDeadPlant.ELM_SAPLING ? AMItems.BRANCH : null;
     }
 
     @Override
-    public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune)
-    {
+    public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
         return Collections.singletonList(owner.getStack(type, world.getBlockState(pos).getValue(variantProperty)));
     }
 
     @Override
-    public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face)
-    {
+    public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
         return 60;
     }
 
     @Override
-    public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face)
-    {
+    public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
         return 100;
     }
 }

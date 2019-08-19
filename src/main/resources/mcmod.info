@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "alfheim",
+    "name": "Alfheim",
+    "description": "A mod based on the realm of Alfheim with some other things here and there.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://proxyneko.github.io",
+    "updateUrl": "https://raw.githubusercontent.com/ProxyNeko/alfheim/master/update.json",
+    "authorList": [
+      "FairWolf01, MrIbby, ProxyNeko, TheIcyOne"
+    ],
+    "credits": "FairWolf01, MrIbby, ProxyNeko, TheIcyOne",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

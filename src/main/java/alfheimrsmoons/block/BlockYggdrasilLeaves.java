@@ -12,13 +12,11 @@ import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockYggdrasilLeaves extends BlockEmptyDrops
-{
-    public BlockYggdrasilLeaves()
-    {
+public class BlockYggdrasilLeaves extends BlockEmptyDrops {
+    public BlockYggdrasilLeaves() {
         super(Material.LEAVES);
         setRegistryName("yggdrasil_leaves");
-        setUnlocalizedName(AlfheimrsMoons.UNLOCALIZED_PREFIX + "yggdrasil_leaves");
+        setTranslationKey(AlfheimrsMoons.UNLOCALIZED_PREFIX + "yggdrasil_leaves");
         setCreativeTab(AlfheimrsMoons.CREATIVE_TAB);
         setBlockUnbreakable().setResistance(6000000.0F);
         setSoundType(SoundType.PLANT);
@@ -26,14 +24,12 @@ public class BlockYggdrasilLeaves extends BlockEmptyDrops
     }
 
     @Override
-    public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity)
-    {
+    public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
         return !(entity instanceof EntityDragon || entity instanceof EntityWither);
     }
 
     @Override
-    public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, EntityLiving.SpawnPlacementType type)
-    {
+    public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, EntityLiving.SpawnPlacementType type) {
         return false;
     }
 }

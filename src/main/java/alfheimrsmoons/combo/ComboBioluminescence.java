@@ -12,8 +12,7 @@ import zaggy1024.item.ItemMulti;
 import java.util.Arrays;
 import java.util.List;
 
-public class ComboBioluminescence extends VariantsOfTypesCombo<VariantBioluminescence>
-{
+public class ComboBioluminescence extends VariantsOfTypesCombo<VariantBioluminescence> {
     public static final ObjectType<VariantBioluminescence, BlockBioluminescenceTorch, ItemBlockMulti<VariantBioluminescence>> TORCH =
             ObjectType.createBlock(VariantBioluminescence.class, "bioluminescence_torch", BlockBioluminescenceTorch.class)
                     .setUseSeparateVariantJsons(false);
@@ -26,9 +25,8 @@ public class ComboBioluminescence extends VariantsOfTypesCombo<VariantBiolumines
             ObjectType.createItem(VariantBioluminescence.class, "bioluminescence");
 
     public static final List<? extends ObjectType<VariantBioluminescence, ?, ?>> TYPES = Arrays.asList(TORCH, LAMP, BIOLUMINESCENCE);
-    
-    public ComboBioluminescence()
-    {
+
+    public ComboBioluminescence() {
         super("bioluminescence", TYPES, VariantBioluminescence.class, Arrays.asList(VariantBioluminescence.values()));
         setNames(AlfheimrsMoons.MOD_ID, AlfheimrsMoons.UNLOCALIZED_PREFIX);
     }

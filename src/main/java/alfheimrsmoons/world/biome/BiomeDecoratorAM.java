@@ -13,8 +13,7 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
 import java.util.Random;
 
-public class BiomeDecoratorAM extends BiomeDecorator
-{
+public class BiomeDecoratorAM extends BiomeDecorator {
     // TODO configurable ore sizes, counts, and heights
     private final WorldGenSandAM sedimentGen = new WorldGenSandAM(AMBlocks.SEDIMENT.getDefaultState(), 7);
     private final WorldGenMinableAM soilGen = new WorldGenMinableAM(AMBlocks.SOIL.getDefaultState(), 33);
@@ -25,14 +24,10 @@ public class BiomeDecoratorAM extends BiomeDecorator
     private final WorldGenLiquidsAM waterGen = new WorldGenLiquidsAM(Blocks.FLOWING_WATER.getDefaultState());
 
     @Override
-    public void decorate(World world, Random random, Biome biome, BlockPos pos)
-    {
-        if (decorating)
-        {
+    public void decorate(World world, Random random, Biome biome, BlockPos pos) {
+        if (decorating) {
             throw new RuntimeException("Already decorating");
-        }
-        else
-        {
+        } else {
             chunkPos = pos;
             genDecorations(biome, world, random);
             decorating = false;
@@ -40,10 +35,8 @@ public class BiomeDecoratorAM extends BiomeDecorator
     }
 
     @Override
-    protected void genDecorations(Biome biome, World world, Random random)
-    {
-        if (!(biome instanceof BiomeAM))
-        {
+    protected void genDecorations(Biome biome, World world, Random random) {
+        if (!(biome instanceof BiomeAM)) {
             super.genDecorations(biome, world, random);
             return;
         }
@@ -52,47 +45,39 @@ public class BiomeDecoratorAM extends BiomeDecorator
 
         generateOres(world, random);
 
-        for (int i = 0; i < sandPerChunk2; ++i)
-        {
+        for (int i = 0; i < gravelPatchesPerChunk; ++i) {
             int xOffset = random.nextInt(16) + 8;
             int yOffset = random.nextInt(16) + 8;
             sedimentGen.generate(world, random, world.getTopSolidOrLiquidBlock(chunkPos.add(xOffset, 0, yOffset)));
         }
 
-        if (alfheimrBiome.hasTrees())
-        {
+        if (alfheimrBiome.hasTrees()) {
             int trees = treesPerChunk;
 
-            if (random.nextInt(10) == 0)
-            {
+            if (random.nextInt(10) == 0) {
                 ++trees;
             }
 
-            for (int i = 0; i < trees; ++i)
-            {
+            for (int i = 0; i < trees; ++i) {
                 int xOffset = random.nextInt(16) + 8;
                 int yOffset = random.nextInt(16) + 8;
-                WorldGenAbstractTree treeGen = alfheimrBiome.genBigTreeChance(random);
+                WorldGenAbstractTree treeGen = alfheimrBiome.getRandomTreeFeature(random);
                 treeGen.setDecorationDefaults();
                 BlockPos pos = world.getHeight(chunkPos.add(xOffset, 0, yOffset));
 
-                if (treeGen.generate(world, random, pos))
-                {
+                if (treeGen.generate(world, random, pos)) {
                     treeGen.generateSaplings(world, random, pos);
                 }
             }
         }
 
-        if (alfheimrBiome.hasFlowers())
-        {
-            for (int i = 0; i < flowersPerChunk; ++i)
-            {
+        if (alfheimrBiome.hasFlowers()) {
+            for (int i = 0; i < flowersPerChunk; ++i) {
                 int xOffset = random.nextInt(16) + 8;
                 int zOffset = random.nextInt(16) + 8;
                 int height = world.getHeight(chunkPos.add(xOffset, 0, zOffset)).getY() + 32;
 
-                if (height > 0)
-                {
+                if (height > 0) {
                     int yOffset = random.nextInt(height);
                     BlockPos pos = chunkPos.add(xOffset, yOffset, zOffset);
                     new WorldGenFlowersAM(alfheimrBiome.getRandomFlower(random)).generate(world, random, pos);
@@ -100,8 +85,7 @@ public class BiomeDecoratorAM extends BiomeDecorator
             }
         }
 
-        for (int i = 0; i < flowersPerChunk; ++i)
-        {
+        for (int i = 0; i < flowersPerChunk; ++i) {
             int xOffset = random.nextInt(16) + 8;
             int zOffset = random.nextInt(16) + 8;
             int yOffset = random.nextInt(256);
@@ -109,45 +93,37 @@ public class BiomeDecoratorAM extends BiomeDecorator
             snapdragonGen.generate(world, random, pos);
         }
 
-        if (alfheimrBiome.hasGrass())
-        {
-            for (int i = 0; i < grassPerChunk; ++i)
-            {
+        if (alfheimrBiome.hasGrass()) {
+            for (int i = 0; i < grassPerChunk; ++i) {
                 int xOffset = random.nextInt(16) + 8;
                 int zOffset = random.nextInt(16) + 8;
                 int height = world.getHeight(chunkPos.add(xOffset, 0, zOffset)).getY() * 2;
 
-                if (height > 0)
-                {
+                if (height > 0) {
                     int yOffset = random.nextInt(height);
                     alfheimrBiome.getRandomWorldGenForGrass(random).generate(world, random, chunkPos.add(xOffset, yOffset, zOffset));
                 }
             }
         }
 
-        for (int i = 0; i < deadBushPerChunk; ++i)
-        {
+        for (int i = 0; i < deadBushPerChunk; ++i) {
             int xOffset = random.nextInt(16) + 8;
             int zOffset = random.nextInt(16) + 8;
             int height = world.getHeight(chunkPos.add(xOffset, 0, zOffset)).getY() * 2;
 
-            if (height > 0)
-            {
+            if (height > 0) {
                 int yOffset = random.nextInt(height);
                 deadPlantGen.generate(world, random, chunkPos.add(xOffset, yOffset, zOffset));
             }
         }
 
-        if (generateLakes)
-        {
-            for (int i = 0; i < 50; ++i)
-            {
+        if (generateFalls) {
+            for (int i = 0; i < 50; ++i) {
                 int xOffset = random.nextInt(16) + 8;
                 int zOffset = random.nextInt(16) + 8;
                 int height = random.nextInt(248) + 8;
 
-                if (height > 0)
-                {
+                if (height > 0) {
                     int yOffset = random.nextInt(height);
                     BlockPos pos = chunkPos.add(xOffset, yOffset, zOffset);
                     waterGen.generate(world, random, pos);
@@ -157,8 +133,7 @@ public class BiomeDecoratorAM extends BiomeDecorator
     }
 
     @Override
-    protected void generateOres(World world, Random random)
-    {
+    protected void generateOres(World world, Random random) {
         genStandardOre1(world, random, 10, soilGen, 0, 256);
         genStandardOre1(world, random, 20, tektiteGen, 0, 64);
         genStandardOre1(world, random, 1, sylvaniteGen, 0, 16);

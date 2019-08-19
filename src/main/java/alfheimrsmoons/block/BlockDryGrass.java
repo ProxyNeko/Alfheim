@@ -30,7 +30,7 @@ public class BlockDryGrass extends Block implements IGrowable {
 
         super(Material.GRASS);
         setRegistryName("dry_grass");
-        setUnlocalizedName(AlfheimrsMoons.UNLOCALIZED_PREFIX + "dry_grass");
+        setTranslationKey(AlfheimrsMoons.UNLOCALIZED_PREFIX + "dry_grass");
         setCreativeTab(AlfheimrsMoons.CREATIVE_TAB);
         setDefaultState(blockState.getBaseState());
         setTickRandomly(true);
@@ -45,8 +45,7 @@ public class BlockDryGrass extends Block implements IGrowable {
         if (!world.isRemote) {
             if (world.getLightFromNeighbors(pos.up()) < 4 && world.getBlockState(pos.up()).getLightOpacity(world, pos.up()) > 2) {
                 world.setBlockState(pos, AMBlocks.SOIL.getDefaultState());
-            }
-            else {
+            } else {
                 if (world.getLightFromNeighbors(pos.up()) >= 9) {
                     for (int i = 0; i < 4; ++i) {
                         BlockPos spreadPos = pos.add(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1);
@@ -92,10 +91,9 @@ public class BlockDryGrass extends Block implements IGrowable {
                 if (j >= i / 16) {
                     if (world.isAirBlock(plantPos)) {
                         if (rand.nextInt(8) == 0) {
-                            Biome biome = world.getBiomeGenForCoords(plantPos);
+                            Biome biome = world.getBiome(plantPos);
                             biome.plantFlower(world, rand, pos);
-                        }
-                        else {
+                        } else {
                             VariantSedge sedgeVariant = rand.nextBoolean() ? VariantSedge.SHORT : VariantSedge.NORMAL;
                             BlockSedge sedgeBlock = AMBlocks.SEDGES.getBlock(sedgeVariant);
                             IBlockState sedgeState = sedgeBlock.getDefaultState().withProperty(AMBlocks.SEDGES.getVariantProperty(sedgeBlock), sedgeVariant);
@@ -107,8 +105,7 @@ public class BlockDryGrass extends Block implements IGrowable {
                     break;
                 }
                 plantPos = plantPos.add(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1);
-                if (world.getBlockState(plantPos.down()).getBlock() instanceof BlockDryGrass && !world.getBlockState(plantPos).isNormalCube())
-                {
+                if (world.getBlockState(plantPos.down()).getBlock() instanceof BlockDryGrass && !world.getBlockState(plantPos).isNormalCube()) {
                     ++j;
                     continue;
                 }
@@ -119,7 +116,7 @@ public class BlockDryGrass extends Block implements IGrowable {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT_MIPPED;
     }
 
@@ -138,8 +135,7 @@ public class BlockDryGrass extends Block implements IGrowable {
     }
 
     @Override
-    public void onPlantGrow(IBlockState state, World world, BlockPos pos, BlockPos source)
-    {
+    public void onPlantGrow(IBlockState state, World world, BlockPos pos, BlockPos source) {
         world.setBlockState(pos, AMBlocks.DRY_GRASS.getDefaultState(), 2);
     }
 }

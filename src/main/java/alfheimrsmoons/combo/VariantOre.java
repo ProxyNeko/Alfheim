@@ -4,16 +4,14 @@ import alfheimrsmoons.util.IntRange;
 import net.minecraft.block.material.MapColor;
 import zaggy1024.combo.variant.IMetadata;
 
-public enum VariantOre implements IMetadata<VariantOre>
-{
+public enum VariantOre implements IMetadata<VariantOre> {
     LOREIUM("loreium", MapColor.DIAMOND, 1, 0.1F, ItemType.INGOT),
     TEKTITE("tektite", MapColor.PURPLE, 2, 0.7F, ItemType.INGOT),
     SYLVANITE("sylvanite", MapColor.EMERALD, 3, 1.0F, ItemType.DROP, IntRange.create(1), IntRange.create(3, 7)),
     MOONSTONE("moonstone", MapColor.PURPLE, 4, 1.2F, ItemType.BOTH, IntRange.create(1), IntRange.create(4, 9)),
     SUNSTONE("sunstone", MapColor.ADOBE, 4, 1.2F, ItemType.BOTH, IntRange.create(1), IntRange.create(4, 9));
 
-    public enum ItemType
-    {
+    public enum ItemType {
         DROP, INGOT, BOTH
     }
 
@@ -25,13 +23,11 @@ public enum VariantOre implements IMetadata<VariantOre>
     private final IntRange dropXP;
     private final ItemType itemType;
 
-    VariantOre(String name, MapColor mapColor, int harvestLevel, float smeltingXP, ItemType itemType)
-    {
+    VariantOre(String name, MapColor mapColor, int harvestLevel, float smeltingXP, ItemType itemType) {
         this(name, mapColor, harvestLevel, smeltingXP, itemType, null, null);
     }
 
-    VariantOre(String name, MapColor mapColor, int harvestLevel, float smeltingXP, ItemType itemType, IntRange dropSize, IntRange dropXP)
-    {
+    VariantOre(String name, MapColor mapColor, int harvestLevel, float smeltingXP, ItemType itemType, IntRange dropSize, IntRange dropXP) {
         this.name = name;
         this.mapColor = mapColor;
         this.harvestLevel = harvestLevel;
@@ -42,55 +38,45 @@ public enum VariantOre implements IMetadata<VariantOre>
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     @Override
-    public String getUnlocalizedName()
-    {
+    public String getTranslationKey() {
         return name;
     }
 
-    public MapColor getMapColor()
-    {
+    public MapColor getMapColor() {
         return mapColor;
     }
 
-    public int getHarvestLevel()
-    {
+    public int getHarvestLevel() {
         return harvestLevel;
     }
 
-    public float getSmeltingXP()
-    {
+    public float getSmeltingXP() {
         return smeltingXP;
     }
 
-    public boolean hasIngot()
-    {
+    public boolean hasIngot() {
         return itemType != ItemType.DROP;
     }
 
-    public boolean hasDrop()
-    {
+    public boolean hasDrop() {
         return itemType != ItemType.INGOT;
     }
 
-    public IntRange getDropSize()
-    {
+    public IntRange getDropSize() {
         return dropSize;
     }
 
-    public IntRange getDropXP()
-    {
+    public IntRange getDropXP() {
         return dropXP;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return name;
     }
 }

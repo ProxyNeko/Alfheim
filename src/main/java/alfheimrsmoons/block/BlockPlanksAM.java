@@ -10,9 +10,9 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
@@ -26,8 +26,7 @@ import zaggy1024.util.BlockStateToMetadata;
 
 import java.util.List;
 
-public class BlockPlanksAM extends Block
-{
+public class BlockPlanksAM extends Block {
     @BlockProperties
     public static final IProperty<?>[] PROPERTIES = new IProperty[0];
 
@@ -39,8 +38,7 @@ public class BlockPlanksAM extends Block
 
     public BlockPlanksAM(VariantsOfTypesCombo<VariantTree> owner,
                          ObjectType<VariantTree, ? extends BlockFlowerAM, ? extends ItemBlockMulti<VariantTree>> type,
-                         List<VariantTree> variants, Class<VariantTree> variantClass)
-    {
+                         List<VariantTree> variants, Class<VariantTree> variantClass) {
         super(Material.WOOD);
 
         this.owner = owner;
@@ -60,45 +58,38 @@ public class BlockPlanksAM extends Block
     }
 
     @Override
-    public int damageDropped(IBlockState state)
-    {
+    public int damageDropped(IBlockState state) {
         return owner.getItemMetadata(type, state.getValue(variantProperty));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list)
-    {
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
         owner.fillSubItems(type, variants, list);
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         return BlockStateToMetadata.getBlockStateFromMeta(getDefaultState(), meta, variantProperty);
     }
 
     @Override
-    public MapColor getMapColor(IBlockState state)
-    {
+    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         return state.getValue(variantProperty).getMapColor();
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         return BlockStateToMetadata.getMetaForBlockState(state, variantProperty);
     }
 
     @Override
-    public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face)
-    {
+    public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
         return 5;
     }
 
     @Override
-    public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face)
-    {
+    public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
         return 20;
     }
 }

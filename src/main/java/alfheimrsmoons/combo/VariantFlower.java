@@ -3,8 +3,7 @@ package alfheimrsmoons.combo;
 import net.minecraft.block.material.MapColor;
 import zaggy1024.combo.variant.IMetadata;
 
-public enum VariantFlower implements IMetadata<VariantFlower>
-{
+public enum VariantFlower implements IMetadata<VariantFlower> {
     COLOMBINE("colombine", MapColor.RED, false, true),
     SNAPDRAGON("snapdragon", MapColor.RED, true, false),
     CARNATION("carnation", MapColor.RED, true, false),
@@ -39,8 +38,7 @@ public enum VariantFlower implements IMetadata<VariantFlower>
     private final boolean hasNormalFlower;
     private final boolean hasTallFlower;
 
-    VariantFlower(String name, MapColor mapColor, boolean hasNormalFlower, boolean hasTallFlower)
-    {
+    VariantFlower(String name, MapColor mapColor, boolean hasNormalFlower, boolean hasTallFlower) {
         this.name = name;
         this.mapColor = mapColor;
         this.hasNormalFlower = hasNormalFlower;
@@ -48,35 +46,29 @@ public enum VariantFlower implements IMetadata<VariantFlower>
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     @Override
-    public String getUnlocalizedName()
-    {
+    public String getTranslationKey() {
         return name;
     }
 
-    public MapColor getMapColor()
-    {
+    public MapColor getMapColor() {
         return mapColor;
     }
 
-    public boolean hasNormalFlower()
-    {
+    public boolean hasNormalFlower() {
         return hasNormalFlower;
     }
 
-    public boolean hasTallFlower()
-    {
+    public boolean hasTallFlower() {
         return hasTallFlower;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return name;
     }
 }

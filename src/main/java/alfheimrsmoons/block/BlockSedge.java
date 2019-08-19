@@ -13,6 +13,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -33,8 +34,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class BlockSedge extends BlockBush implements IGrowable, IShearable
-{
+public class BlockSedge extends BlockBush implements IGrowable, IShearable {
     @BlockProperties
     public static final IProperty<?>[] PROPERTIES = new IProperty[0];
 
@@ -49,8 +49,7 @@ public class BlockSedge extends BlockBush implements IGrowable, IShearable
 
     public BlockSedge(VariantsOfTypesCombo<VariantSedge> owner,
                       ObjectType<VariantSedge, ? extends BlockFlowerAM, ? extends ItemBlockMulti<VariantSedge>> type,
-                      List<VariantSedge> variants, Class<VariantSedge> variantClass)
-    {
+                      List<VariantSedge> variants, Class<VariantSedge> variantClass) {
         super(Material.VINE);
 
         this.owner = owner;
@@ -68,113 +67,95 @@ public class BlockSedge extends BlockBush implements IGrowable, IShearable
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
-    {
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return state.getValue(variantProperty) == VariantSedge.SHORT ? SHORT_SEDGE_AABB : NORMAL_SEDGE_AABB;
     }
 
     @Override
-    protected boolean canSustainBush(IBlockState state)
-    {
+    protected boolean canSustainBush(IBlockState state) {
         return state.getBlock() instanceof BlockSoil || state.getBlock() instanceof BlockGrassySoil || super.canSustainBush(state);
     }
 
     @Override
-    public boolean isReplaceable(IBlockAccess world, BlockPos pos)
-    {
+    public boolean isReplaceable(IBlockAccess world, BlockPos pos) {
         return true;
     }
 
     @Override
     @Nullable
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return null;
     }
 
     @Override
-    public int quantityDroppedWithBonus(int fortune, Random random)
-    {
+    public int quantityDroppedWithBonus(int fortune, Random random) {
         return 1 + random.nextInt(fortune * 2 + 1);
     }
 
     @Override
-    public ItemStack getItem(World world, BlockPos pos, IBlockState state)
-    {
+    public ItemStack getItem(World world, BlockPos pos, IBlockState state) {
         return new ItemStack(this, 1, state.getBlock().getMetaFromState(state));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list)
-    {
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
         owner.fillSubItems(type, variants, list);
     }
 
     @Override
-    public boolean canGrow(World world, BlockPos pos, IBlockState state, boolean isClient)
-    {
+    public boolean canGrow(World world, BlockPos pos, IBlockState state, boolean isClient) {
         return state.getValue(variantProperty) == VariantSedge.SHORT;
     }
 
     @Override
-    public boolean canUseBonemeal(World world, Random rand, BlockPos pos, IBlockState state)
-    {
+    public boolean canUseBonemeal(World world, Random rand, BlockPos pos, IBlockState state) {
         return true;
     }
 
     @Override
-    public void grow(World world, Random rand, BlockPos pos, IBlockState state)
-    {
+    public void grow(World world, Random rand, BlockPos pos, IBlockState state) {
         world.setBlockState(pos, owner.getBlockState(type, VariantSedge.NORMAL), 2);
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         return BlockStateToMetadata.getBlockStateFromMeta(getDefaultState(), meta, variantProperty);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         return BlockStateToMetadata.getMetaForBlockState(state, variantProperty);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public EnumOffsetType getOffsetType()
-    {
+    public EnumOffsetType getOffsetType() {
         return EnumOffsetType.XYZ;
     }
 
     @Override
-    public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos)
-    {
+    public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos) {
         return true;
     }
 
     @Override
-    public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune)
-    {
+    public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
         return Collections.singletonList(owner.getStack(type, world.getBlockState(pos)));
     }
 
     @Override
-    public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos)
-    {
+    public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) {
         return EnumPlantType.Plains;
     }
 
     @Override
-    public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face)
-    {
+    public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
         return 60;
     }
 
     @Override
-    public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face)
-    {
+    public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
         return 100;
     }
 }

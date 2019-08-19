@@ -9,13 +9,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockMeteorite extends Block
-{
-    public BlockMeteorite()
-    {
+public class BlockMeteorite extends Block {
+    public BlockMeteorite() {
         super(Material.ROCK, MapColor.OBSIDIAN);
         setRegistryName("meteorite");
-        setUnlocalizedName(AlfheimrsMoons.UNLOCALIZED_PREFIX + "meteorite");
+        setTranslationKey(AlfheimrsMoons.UNLOCALIZED_PREFIX + "meteorite");
         setCreativeTab(AlfheimrsMoons.CREATIVE_TAB);
         setHardness(1.5F);
         setResistance(10.0F);
@@ -24,8 +22,7 @@ public class BlockMeteorite extends Block
     }
 
     @Override
-    public boolean isFireSource(World world, BlockPos pos, EnumFacing side)
-    {
+    public boolean isFireSource(World world, BlockPos pos, EnumFacing side) {
         return side == EnumFacing.UP;
     }
 }

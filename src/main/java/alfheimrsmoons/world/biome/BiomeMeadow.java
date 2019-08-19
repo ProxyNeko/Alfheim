@@ -1,24 +1,20 @@
 package alfheimrsmoons.world.biome;
 
-public class BiomeMeadow extends BiomeAM
-{
-    public BiomeMeadow(BiomeProperties properties)
-    {
+public class BiomeMeadow extends BiomeAM {
+    public BiomeMeadow(BiomeProperties properties) {
         super(properties);
-        theBiomeDecorator.treesPerChunk = -999;
-        theBiomeDecorator.flowersPerChunk = 4;
-        theBiomeDecorator.grassPerChunk = 10;
+        decorator.treesPerChunk = -999;
+        decorator.flowersPerChunk = 4;
+        decorator.grassPerChunk = 10;
     }
 
     @Override
-    public boolean hasTrees()
-    {
+    public boolean hasTrees() {
         return false;
     }
 
     @Override
-    protected void addFlowerVariants()
-    {
+    protected void addFlowerVariants() {
         addFlowerVariants(BiomeWoods.FLOWER_VARIANTS);
         addTallFlowerVariants(BiomeWoods.TALL_FLOWER_VARIANTS);
     }

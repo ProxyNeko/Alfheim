@@ -8,12 +8,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockRuneBookshelf extends BlockBookshelf
-{
-    public BlockRuneBookshelf()
-    {
+public class BlockRuneBookshelf extends BlockBookshelf {
+    public BlockRuneBookshelf() {
         setRegistryName("rune_bookshelf");
-        setUnlocalizedName(AlfheimrsMoons.UNLOCALIZED_PREFIX + "rune_bookshelf");
+        setTranslationKey(AlfheimrsMoons.UNLOCALIZED_PREFIX + "rune_bookshelf");
         setCreativeTab(AlfheimrsMoons.CREATIVE_TAB);
         setHardness(1.5F);
         setSoundType(SoundType.WOOD);
@@ -21,20 +19,17 @@ public class BlockRuneBookshelf extends BlockBookshelf
     }
 
     @Override
-    public float getEnchantPowerBonus(World world, BlockPos pos)
-    {
+    public float getEnchantPowerBonus(World world, BlockPos pos) {
         return 1;
     }
 
     @Override
-    public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face)
-    {
+    public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
         return 30;
     }
 
     @Override
-    public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face)
-    {
+    public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
         return 20;
     }
 }

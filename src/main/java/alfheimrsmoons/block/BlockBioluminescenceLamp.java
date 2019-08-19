@@ -9,8 +9,8 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import zaggy1024.combo.ObjectType;
@@ -22,8 +22,7 @@ import zaggy1024.util.BlockStateToMetadata;
 
 import java.util.List;
 
-public class BlockBioluminescenceLamp extends Block
-{
+public class BlockBioluminescenceLamp extends Block {
     @BlockProperties
     public static final IProperty<?>[] PROPERTIES = new IProperty[0];
 
@@ -35,8 +34,7 @@ public class BlockBioluminescenceLamp extends Block
 
     public BlockBioluminescenceLamp(VariantsOfTypesCombo<VariantBioluminescence> owner,
                                     ObjectType<VariantBioluminescence, ? extends BlockBioluminescenceTorch, ? extends ItemBlockMulti<VariantBioluminescence>> type,
-                                    List<VariantBioluminescence> variants, Class<VariantBioluminescence> variantClass)
-    {
+                                    List<VariantBioluminescence> variants, Class<VariantBioluminescence> variantClass) {
         super(Material.REDSTONE_LIGHT);
 
         this.owner = owner;
@@ -55,27 +53,23 @@ public class BlockBioluminescenceLamp extends Block
     }
 
     @Override
-    public int damageDropped(IBlockState state)
-    {
+    public int damageDropped(IBlockState state) {
         return owner.getItemMetadata(type, state.getValue(variantProperty));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list)
-    {
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
         owner.fillSubItems(type, variants, list);
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         return BlockStateToMetadata.getBlockStateFromMeta(getDefaultState(), meta, variantProperty);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         return BlockStateToMetadata.getMetaForBlockState(state, variantProperty);
     }
 }

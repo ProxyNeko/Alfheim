@@ -11,43 +11,32 @@ import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.biome.BiomeColorHelper;
 
-public class ColorGrass implements IBlockColor, IItemColor
-{
+public class ColorGrass implements IBlockColor, IItemColor {
     private final Predicate<IBlockState> predicate;
 
-    public ColorGrass()
-    {
+    public ColorGrass() {
         this(null);
     }
 
-    public ColorGrass(Predicate<IBlockState> predicate)
-    {
+    public ColorGrass(Predicate<IBlockState> predicate) {
         this.predicate = predicate;
     }
 
     @Override
-    public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex)
-    {
-        if (predicate == null || predicate.apply(state))
-        {
-            if (world != null && pos != null)
-            {
+    public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
+        if (predicate == null || predicate.apply(state)) {
+            if (world != null && pos != null) {
                 return BiomeColorHelper.getGrassColorAtPos(world, pos);
-            }
-            else
-            {
+            } else {
                 return ColorizerGrass.getGrassColor(0.5D, 1.0D);
             }
-        }
-        else
-        {
+        } else {
             return -1;
         }
     }
 
     @Override
-    public int getColorFromItemstack(ItemStack stack, int tintIndex)
-    {
+    public int colorMultiplier(ItemStack stack, int tintIndex) {
         IBlockState state = Block.getBlockFromItem(stack.getItem()).getStateFromMeta(stack.getMetadata());
         return colorMultiplier(state, null, null, tintIndex);
     }

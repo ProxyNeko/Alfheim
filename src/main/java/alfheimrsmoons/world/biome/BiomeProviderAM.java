@@ -14,34 +14,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BiomeProviderAM extends BiomeProvider
-{
+public class BiomeProviderAM extends BiomeProvider {
     private static final Map<BiomeType, List<BiomeEntry>> BIOMES = setupBiomes();
 
-    public BiomeProviderAM(long seed, WorldType worldType)
-    {
+    public BiomeProviderAM(long seed, WorldType worldType) {
         super();
         GenLayer[] genLayers = GenLayerAM.initializeAllBiomeGenerators(seed, worldType);
         genBiomes = genLayers[0];
         biomeIndexLayer = genLayers[1];
     }
 
-    public BiomeProviderAM(WorldInfo worldInfo)
-    {
+    public BiomeProviderAM(WorldInfo worldInfo) {
         this(worldInfo.getSeed(), worldInfo.getTerrainType());
     }
 
-    public static List<BiomeEntry> getBiomes(BiomeType type)
-    {
+    public static List<BiomeEntry> getBiomes(BiomeType type) {
         return BIOMES.get(type);
     }
 
-    public static BiomeType getBiomeTypeByID(int id)
-    {
-        for (BiomeType type : BIOMES.keySet())
-        {
-            if (type.ordinal() == id)
-            {
+    public static BiomeType getBiomeTypeByID(int id) {
+        for (BiomeType type : BIOMES.keySet()) {
+            if (type.ordinal() == id) {
                 return type;
             }
         }
@@ -49,8 +42,7 @@ public class BiomeProviderAM extends BiomeProvider
     }
 
     // BiomeManager.setupBiomes
-    private static HashMap<BiomeType, List<BiomeEntry>> setupBiomes()
-    {
+    private static HashMap<BiomeType, List<BiomeEntry>> setupBiomes() {
         HashMap<BiomeType, List<BiomeEntry>> biomes = new HashMap<>();
 
         List<BiomeEntry> list = new ArrayList<>();

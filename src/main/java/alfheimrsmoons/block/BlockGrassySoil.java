@@ -24,13 +24,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockGrassySoil extends Block implements IGrowable
-{
-    public BlockGrassySoil()
-    {
+public class BlockGrassySoil extends Block implements IGrowable {
+    public BlockGrassySoil() {
         super(Material.GRASS);
         setRegistryName("grassy_soil");
-        setUnlocalizedName(AlfheimrsMoons.UNLOCALIZED_PREFIX + "grassy_soil");
+        setTranslationKey(AlfheimrsMoons.UNLOCALIZED_PREFIX + "grassy_soil");
         setCreativeTab(AlfheimrsMoons.CREATIVE_TAB);
         setDefaultState(blockState.getBaseState());
         setTickRandomly(true);
@@ -41,32 +39,23 @@ public class BlockGrassySoil extends Block implements IGrowable
     }
 
     @Override
-    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand)
-    {
-        if (!world.isRemote)
-        {
-            if (world.getLightFromNeighbors(pos.up()) < 4 && world.getBlockState(pos.up()).getLightOpacity(world, pos.up()) > 2)
-            {
+    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+        if (!world.isRemote) {
+            if (world.getLightFromNeighbors(pos.up()) < 4 && world.getBlockState(pos.up()).getLightOpacity(world, pos.up()) > 2) {
                 world.setBlockState(pos, AMBlocks.SOIL.getDefaultState());
-            }
-            else
-            {
-                if (world.getLightFromNeighbors(pos.up()) >= 9)
-                {
-                    for (int i = 0; i < 4; ++i)
-                    {
+            } else {
+                if (world.getLightFromNeighbors(pos.up()) >= 9) {
+                    for (int i = 0; i < 4; ++i) {
                         BlockPos spreadPos = pos.add(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1);
 
-                        if (spreadPos.getY() >= 0 && spreadPos.getY() < 256 && !world.isBlockLoaded(spreadPos))
-                        {
+                        if (spreadPos.getY() >= 0 && spreadPos.getY() < 256 && !world.isBlockLoaded(spreadPos)) {
                             return;
                         }
 
                         IBlockState iblockstate = world.getBlockState(spreadPos.up());
                         IBlockState iblockstate1 = world.getBlockState(spreadPos);
 
-                        if (iblockstate1.getBlock() instanceof BlockSoil && world.getLightFromNeighbors(spreadPos.up()) >= 4 && iblockstate.getLightOpacity(world, pos.up()) <= 2)
-                        {
+                        if (iblockstate1.getBlock() instanceof BlockSoil && world.getLightFromNeighbors(spreadPos.up()) >= 4 && iblockstate.getLightOpacity(world, pos.up()) <= 2) {
                             world.setBlockState(spreadPos, AMBlocks.GRASSY_SOIL.getDefaultState());
                         }
                     }
@@ -77,52 +66,40 @@ public class BlockGrassySoil extends Block implements IGrowable
 
     @Override
     @Nullable
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return AMBlocks.SOIL.getItemDropped(AMBlocks.SOIL.getDefaultState(), rand, fortune);
     }
 
     @Override
-    public boolean canGrow(World world, BlockPos pos, IBlockState state, boolean isClient)
-    {
+    public boolean canGrow(World world, BlockPos pos, IBlockState state, boolean isClient) {
         return true;
     }
 
     @Override
-    public boolean canUseBonemeal(World world, Random rand, BlockPos pos, IBlockState state)
-    {
+    public boolean canUseBonemeal(World world, Random rand, BlockPos pos, IBlockState state) {
         return true;
     }
 
     @Override
-    public void grow(World world, Random rand, BlockPos pos, IBlockState state)
-    {
+    public void grow(World world, Random rand, BlockPos pos, IBlockState state) {
         BlockPos upPos = pos.up();
 
-        for (int i = 0; i < 128; ++i)
-        {
+        for (int i = 0; i < 128; ++i) {
             BlockPos plantPos = upPos;
             int j = 0;
 
-            while (true)
-            {
-                if (j >= i / 16)
-                {
-                    if (world.isAirBlock(plantPos))
-                    {
-                        if (rand.nextInt(8) == 0)
-                        {
-                            Biome biome = world.getBiomeGenForCoords(plantPos);
+            while (true) {
+                if (j >= i / 16) {
+                    if (world.isAirBlock(plantPos)) {
+                        if (rand.nextInt(8) == 0) {
+                            Biome biome = world.getBiome(plantPos);
                             biome.plantFlower(world, rand, pos);
-                        }
-                        else
-                        {
+                        } else {
                             VariantSedge sedgeVariant = rand.nextBoolean() ? VariantSedge.SHORT : VariantSedge.NORMAL;
                             BlockSedge sedgeBlock = AMBlocks.SEDGES.getBlock(sedgeVariant);
                             IBlockState sedgeState = sedgeBlock.getDefaultState().withProperty(AMBlocks.SEDGES.getVariantProperty(sedgeBlock), sedgeVariant);
 
-                            if (sedgeBlock.canBlockStay(world, plantPos, sedgeState))
-                            {
+                            if (sedgeBlock.canBlockStay(world, plantPos, sedgeState)) {
                                 world.setBlockState(plantPos, sedgeState, 3);
                             }
                         }
@@ -133,8 +110,7 @@ public class BlockGrassySoil extends Block implements IGrowable
 
                 plantPos = plantPos.add(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1);
 
-                if (world.getBlockState(plantPos.down()).getBlock() instanceof BlockGrassySoil && !world.getBlockState(plantPos).isNormalCube())
-                {
+                if (world.getBlockState(plantPos.down()).getBlock() instanceof BlockGrassySoil && !world.getBlockState(plantPos).isNormalCube()) {
                     ++j;
                     continue;
                 }
@@ -146,18 +122,15 @@ public class BlockGrassySoil extends Block implements IGrowable
 
     @Override
     @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
-    {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT_MIPPED;
     }
 
     @Override
-    public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable)
-    {
+    public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable) {
         EnumPlantType plantType = plantable.getPlantType(world, pos.offset(direction));
 
-        switch (plantType)
-        {
+        switch (plantType) {
             case Plains:
                 return true;
             case Beach:
@@ -170,8 +143,7 @@ public class BlockGrassySoil extends Block implements IGrowable
     }
 
     @Override
-    public void onPlantGrow(IBlockState state, World world, BlockPos pos, BlockPos source)
-    {
+    public void onPlantGrow(IBlockState state, World world, BlockPos pos, BlockPos source) {
         world.setBlockState(pos, AMBlocks.SOIL.getDefaultState(), 2);
     }
 }

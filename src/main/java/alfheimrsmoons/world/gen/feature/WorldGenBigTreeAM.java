@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
-{
+public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM {
     private static final double HEIGHT_ATTENUATION = 0.618D;
     private static final double BRANCH_SLOPE = 0.381D;
     private static final double SCALE_WIDTH = 1.0D;
@@ -26,11 +25,17 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
     private static final int TRUNK_SIZE = 1;
     private static final int HEIGHT_LIMIT_LIMIT = 12;
 
-    /** The block state of the wood to use in tree generation. */
+    /**
+     * The block state of the wood to use in tree generation.
+     */
     private final IBlockState woodState;
-    /** The block state of the leaves to use in tree generation. */
+    /**
+     * The block state of the leaves to use in tree generation.
+     */
     private final IBlockState leavesState;
-    /** The sapling used to check if a tree can generate. */
+    /**
+     * The sapling used to check if a tree can generate.
+     */
     private final IPlantable sapling;
 
     private int heightLimit;
@@ -41,16 +46,14 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
      */
     private int leafDistanceLimit = 4;
 
-    public WorldGenBigTreeAM(boolean notify, VariantTree variant)
-    {
+    public WorldGenBigTreeAM(boolean notify, VariantTree variant) {
         super(notify);
         this.woodState = AMBlocks.TREES.getBlockState(ComboTrees.LOG, variant);
         this.leavesState = AMBlocks.TREES.getBlockState(ComboTrees.LEAVES, variant).withProperty(BlockLeaves.CHECK_DECAY, false);
         this.sapling = AMBlocks.TREES.getBlock(ComboTrees.SAPLING, variant);
     }
 
-    public WorldGenBigTreeAM(boolean notify, IBlockState woodState, IBlockState leavesState, IPlantable sapling)
-    {
+    public WorldGenBigTreeAM(boolean notify, IBlockState woodState, IBlockState leavesState, IPlantable sapling) {
         super(notify);
         this.woodState = woodState;
         this.leavesState = leavesState;
@@ -61,19 +64,16 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
      * Generates a list of leaf nodes for the tree, to be populated by
      * generateLeaves.
      */
-    private void generateLeafNodeList(World world, Random rand, BlockPos basePos, List<FoliageCoordinates> foliageCoordList)
-    {
+    private void generateLeafNodeList(World world, Random rand, BlockPos basePos, List<FoliageCoordinates> foliageCoordList) {
         height = (int) ((double) heightLimit * HEIGHT_ATTENUATION);
 
-        if (height >= heightLimit)
-        {
+        if (height >= heightLimit) {
             height = heightLimit - 1;
         }
 
         int i = (int) (1.382D + Math.pow(LEAF_DENSITY * (double) heightLimit / 13.0D, 2.0D));
 
-        if (i < 1)
-        {
+        if (i < 1) {
             i = 1;
         }
 
@@ -82,14 +82,11 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
 
         foliageCoordList.add(new FoliageCoordinates(basePos.up(k), j));
 
-        for (; k >= 0; --k)
-        {
+        for (; k >= 0; --k) {
             float f = layerSize(k);
 
-            if (f >= 0.0F)
-            {
-                for (int l = 0; l < i; ++l)
-                {
+            if (f >= 0.0F) {
+                for (int l = 0; l < i; ++l) {
                     double d0 = SCALE_WIDTH * (double) f * ((double) rand.nextFloat() + 0.328D);
                     double d1 = (double) (rand.nextFloat() * 2.0F) * Math.PI;
                     double d2 = d0 * Math.sin(d1) + 0.5D;
@@ -97,16 +94,14 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
                     BlockPos blockpos = basePos.add(d2, (double) (k - 1), d3);
                     BlockPos blockpos1 = blockpos.up(leafDistanceLimit);
 
-                    if (checkBlockLine(world, blockpos, blockpos1) == -1)
-                    {
+                    if (checkBlockLine(world, blockpos, blockpos1) == -1) {
                         int i1 = basePos.getX() - blockpos.getX();
                         int j1 = basePos.getZ() - blockpos.getZ();
                         double d4 = (double) blockpos.getY() - Math.sqrt((double) (i1 * i1 + j1 * j1)) * BRANCH_SLOPE;
                         int k1 = d4 > (double) j ? j : (int) d4;
                         BlockPos blockpos2 = new BlockPos(basePos.getX(), k1, basePos.getZ());
 
-                        if (checkBlockLine(world, blockpos2, blockpos) == -1)
-                        {
+                        if (checkBlockLine(world, blockpos2, blockpos) == -1) {
                             foliageCoordList.add(new FoliageCoordinates(blockpos, blockpos2.getY()));
                         }
                     }
@@ -115,21 +110,16 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
         }
     }
 
-    private void crosSection(World world, BlockPos pos, float p_181631_2_, IBlockState p_181631_3_)
-    {
+    private void crosSection(World world, BlockPos pos, float p_181631_2_, IBlockState p_181631_3_) {
         int i = (int) ((double) p_181631_2_ + 0.618D);
 
-        for (int j = -i; j <= i; ++j)
-        {
-            for (int k = -i; k <= i; ++k)
-            {
-                if (Math.pow((double) Math.abs(j) + 0.5D, 2.0D) + Math.pow((double) Math.abs(k) + 0.5D, 2.0D) <= (double) (p_181631_2_ * p_181631_2_))
-                {
+        for (int j = -i; j <= i; ++j) {
+            for (int k = -i; k <= i; ++k) {
+                if (Math.pow((double) Math.abs(j) + 0.5D, 2.0D) + Math.pow((double) Math.abs(k) + 0.5D, 2.0D) <= (double) (p_181631_2_ * p_181631_2_)) {
                     BlockPos blockpos = pos.add(j, 0, k);
                     IBlockState state = world.getBlockState(blockpos);
 
-                    if (state.getBlock().isAir(state, world, blockpos) || state.getBlock().isLeaves(state, world, blockpos))
-                    {
+                    if (state.getBlock().isAir(state, world, blockpos) || state.getBlock().isLeaves(state, world, blockpos)) {
                         setBlockAndNotifyAdequately(world, blockpos, p_181631_3_);
                     }
                 }
@@ -140,24 +130,17 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
     /**
      * Gets the rough size of a layer of the tree.
      */
-    private float layerSize(int y)
-    {
-        if ((float) y < (float) heightLimit * 0.3F)
-        {
+    private float layerSize(int y) {
+        if ((float) y < (float) heightLimit * 0.3F) {
             return -1.0F;
-        }
-        else
-        {
+        } else {
             float f = (float) heightLimit / 2.0F;
             float f1 = f - (float) y;
-            float f2 = MathHelper.sqrt_float(f * f - f1 * f1);
+            float f2 = MathHelper.sqrt(f * f - f1 * f1);
 
-            if (f1 == 0.0F)
-            {
+            if (f1 == 0.0F) {
                 f2 = f;
-            }
-            else if (Math.abs(f1) >= f)
-            {
+            } else if (Math.abs(f1) >= f) {
                 return 0.0F;
             }
 
@@ -165,8 +148,7 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
         }
     }
 
-    private float leafSize(int y)
-    {
+    private float leafSize(int y) {
         return y >= 0 && y < leafDistanceLimit ? (y != 0 && y != leafDistanceLimit - 1 ? 3.0F : 2.0F) : -1.0F;
     }
 
@@ -174,24 +156,20 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
      * Generates the leaves surrounding an individual entry in the
      * leafNodes list.
      */
-    private void generateLeafNode(World world, BlockPos pos)
-    {
-        for (int i = 0; i < leafDistanceLimit; ++i)
-        {
+    private void generateLeafNode(World world, BlockPos pos) {
+        for (int i = 0; i < leafDistanceLimit; ++i) {
             crosSection(world, pos.up(i), leafSize(i), leavesState);
         }
     }
 
-    private void limb(World world, BlockPos p_175937_1_, BlockPos p_175937_2_)
-    {
+    private void limb(World world, BlockPos p_175937_1_, BlockPos p_175937_2_) {
         BlockPos blockpos = p_175937_2_.add(-p_175937_1_.getX(), -p_175937_1_.getY(), -p_175937_1_.getZ());
         int i = getGreatestDistance(blockpos);
         float f = (float) blockpos.getX() / (float) i;
         float f1 = (float) blockpos.getY() / (float) i;
         float f2 = (float) blockpos.getZ() / (float) i;
 
-        for (int j = 0; j <= i; ++j)
-        {
+        for (int j = 0; j <= i; ++j) {
             BlockPos blockpos1 = p_175937_1_.add((double) (0.5F + (float) j * f), (double) (0.5F + (float) j * f1), (double) (0.5F + (float) j * f2));
             EnumAxis blocklog$enumaxis = getLogAxis(p_175937_1_, blockpos1);
             setBlockAndNotifyAdequately(world, blockpos1, woodState.withProperty(BlockLog.LOG_AXIS, blocklog$enumaxis));
@@ -201,29 +179,23 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
     /**
      * Returns the absolute greatest distance in the BlockPos object.
      */
-    private int getGreatestDistance(BlockPos posIn)
-    {
-        int i = MathHelper.abs_int(posIn.getX());
-        int j = MathHelper.abs_int(posIn.getY());
-        int k = MathHelper.abs_int(posIn.getZ());
+    private int getGreatestDistance(BlockPos posIn) {
+        int i = MathHelper.abs(posIn.getX());
+        int j = MathHelper.abs(posIn.getY());
+        int k = MathHelper.abs(posIn.getZ());
         return k > i && k > j ? k : (j > i ? j : i);
     }
 
-    private EnumAxis getLogAxis(BlockPos p_175938_1_, BlockPos p_175938_2_)
-    {
+    private EnumAxis getLogAxis(BlockPos p_175938_1_, BlockPos p_175938_2_) {
         EnumAxis blocklog$enumaxis = EnumAxis.Y;
         int i = Math.abs(p_175938_2_.getX() - p_175938_1_.getX());
         int j = Math.abs(p_175938_2_.getZ() - p_175938_1_.getZ());
         int k = Math.max(i, j);
 
-        if (k > 0)
-        {
-            if (i == k)
-            {
+        if (k > 0) {
+            if (i == k) {
                 blocklog$enumaxis = EnumAxis.X;
-            }
-            else if (j == k)
-            {
+            } else if (j == k) {
                 blocklog$enumaxis = EnumAxis.Z;
             }
         }
@@ -235,10 +207,8 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
      * Generates the leaf portion of the tree as specified by the
      * leafNodes list.
      */
-    private void generateLeaves(World world, List<FoliageCoordinates> foliageCoordList)
-    {
-        for (FoliageCoordinates foliageCoords : foliageCoordList)
-        {
+    private void generateLeaves(World world, List<FoliageCoordinates> foliageCoordList) {
+        for (FoliageCoordinates foliageCoords : foliageCoordList) {
             generateLeafNode(world, foliageCoords);
         }
     }
@@ -247,8 +217,7 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
      * Indicates whether or not a leaf node requires additional wood to
      * be added to preserve integrity.
      */
-    private boolean leafNodeNeedsBase(int p_76493_1_)
-    {
+    private boolean leafNodeNeedsBase(int p_76493_1_) {
         return (double) p_76493_1_ >= (double) heightLimit * 0.2D;
     }
 
@@ -257,14 +226,12 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
      * to generate double-sized trunks by changing a field that is
      * always 1 to 2.
      */
-    private void generateTrunk(World world, BlockPos basePos)
-    {
+    private void generateTrunk(World world, BlockPos basePos) {
         BlockPos blockpos = basePos;
         BlockPos blockpos1 = basePos.up(height);
         limb(world, blockpos, blockpos1);
 
-        if (TRUNK_SIZE == 2)
-        {
+        if (TRUNK_SIZE == 2) {
             limb(world, blockpos.east(), blockpos1.east());
             limb(world, blockpos.east().south(), blockpos1.east().south());
             limb(world, blockpos.south(), blockpos1.south());
@@ -275,15 +242,12 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
      * Generates additional wood blocks to fill out the bases of
      * different leaf nodes that would otherwise degrade.
      */
-    private void generateLeafNodeBases(World world, BlockPos basePos, List<FoliageCoordinates> foliageCoordList)
-    {
-        for (FoliageCoordinates foliageCoords : foliageCoordList)
-        {
+    private void generateLeafNodeBases(World world, BlockPos basePos, List<FoliageCoordinates> foliageCoordList) {
+        for (FoliageCoordinates foliageCoords : foliageCoordList) {
             int i = foliageCoords.branchBase;
             BlockPos blockpos = new BlockPos(basePos.getX(), i, basePos.getZ());
 
-            if (!blockpos.equals(foliageCoords) && leafNodeNeedsBase(i - basePos.getY()))
-            {
+            if (!blockpos.equals(foliageCoords) && leafNodeNeedsBase(i - basePos.getY())) {
                 limb(world, blockpos, foliageCoords);
             }
         }
@@ -295,26 +259,20 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
      * a non-air, non-leaf block is encountered and/or the end is
      * encountered.
      */
-    private int checkBlockLine(World world, BlockPos posOne, BlockPos posTwo)
-    {
+    private int checkBlockLine(World world, BlockPos posOne, BlockPos posTwo) {
         BlockPos blockpos = posTwo.add(-posOne.getX(), -posOne.getY(), -posOne.getZ());
         int i = getGreatestDistance(blockpos);
         float f = (float) blockpos.getX() / (float) i;
         float f1 = (float) blockpos.getY() / (float) i;
         float f2 = (float) blockpos.getZ() / (float) i;
 
-        if (i == 0)
-        {
+        if (i == 0) {
             return -1;
-        }
-        else
-        {
-            for (int j = 0; j <= i; ++j)
-            {
+        } else {
+            for (int j = 0; j <= i; ++j) {
                 BlockPos blockpos1 = posOne.add((double) (0.5F + (float) j * f), (double) (0.5F + (float) j * f1), (double) (0.5F + (float) j * f2));
 
-                if (!isReplaceable(world, blockpos1))
-                {
+                if (!isReplaceable(world, blockpos1)) {
                     return j;
                 }
             }
@@ -324,27 +282,21 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
     }
 
     @Override
-    public void setDecorationDefaults()
-    {
+    public void setDecorationDefaults() {
         leafDistanceLimit = 5;
     }
 
     @Override
-    public boolean generate(World world, Random rand, BlockPos basePos)
-    {
+    public boolean generate(World world, Random rand, BlockPos basePos) {
         rand = new Random(rand.nextLong());
 
-        if (heightLimit == 0)
-        {
+        if (heightLimit == 0) {
             heightLimit = 5 + rand.nextInt(HEIGHT_LIMIT_LIMIT);
         }
 
-        if (!validTreeLocation(world, basePos))
-        {
+        if (!validTreeLocation(world, basePos)) {
             return false;
-        }
-        else
-        {
+        } else {
             List<FoliageCoordinates> foliageCoordList = new ArrayList<>();
             generateLeafNodeList(world, rand, basePos, foliageCoordList);
             generateLeaves(world, foliageCoordList);
@@ -358,42 +310,31 @@ public class WorldGenBigTreeAM extends WorldGenAbstractTreeAM
      * Returns a boolean indicating whether or not the current location
      * for the tree, spanning basePos to to the height limit, is valid.
      */
-    private boolean validTreeLocation(World world, BlockPos basePos)
-    {
+    private boolean validTreeLocation(World world, BlockPos basePos) {
         BlockPos down = basePos.down();
         IBlockState state = world.getBlockState(down);
         boolean isSoil = state.getBlock().canSustainPlant(state, world, down, EnumFacing.UP, sapling);
 
-        if (!isSoil)
-        {
+        if (!isSoil) {
             return false;
-        }
-        else
-        {
+        } else {
             int i = checkBlockLine(world, basePos, basePos.up(heightLimit - 1));
 
-            if (i == -1)
-            {
+            if (i == -1) {
                 return true;
-            }
-            else if (i < 6)
-            {
+            } else if (i < 6) {
                 return false;
-            }
-            else
-            {
+            } else {
                 heightLimit = i;
                 return true;
             }
         }
     }
 
-    private static class FoliageCoordinates extends BlockPos
-    {
+    private static class FoliageCoordinates extends BlockPos {
         private final int branchBase;
 
-        private FoliageCoordinates(BlockPos pos, int p_i45635_2_)
-        {
+        private FoliageCoordinates(BlockPos pos, int p_i45635_2_) {
             super(pos.getX(), pos.getY(), pos.getZ());
             branchBase = p_i45635_2_;
         }

@@ -12,8 +12,8 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -30,8 +30,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class BlockOreAM extends BlockOre
-{
+public class BlockOreAM extends BlockOre {
     @BlockProperties
     public static final IProperty<?>[] PROPERTIES = new IProperty[0];
 
@@ -43,8 +42,7 @@ public class BlockOreAM extends BlockOre
 
     public BlockOreAM(VariantsOfTypesCombo<VariantOre> owner,
                       ObjectType<VariantOre, ? extends BlockFlowerAM, ? extends ItemBlockMulti<VariantOre>> type,
-                      List<VariantOre> variants, Class<VariantOre> variantClass)
-    {
+                      List<VariantOre> variants, Class<VariantOre> variantClass) {
         super();
 
         this.owner = owner;
@@ -63,24 +61,20 @@ public class BlockOreAM extends BlockOre
     }
 
     @Override
-    public MapColor getMapColor(IBlockState state)
-    {
+    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         return state.getValue(variantProperty).getMapColor();
     }
 
     @Override
-    public int getHarvestLevel(IBlockState state)
-    {
+    public int getHarvestLevel(IBlockState state) {
         return state.getValue(variantProperty).getHarvestLevel();
     }
 
     @Override
-    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
-    {
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         VariantOre variant = state.getValue(variantProperty);
 
-        if (!variant.hasDrop())
-        {
+        if (!variant.hasDrop()) {
             return Collections.singletonList(owner.getStack(type, variant));
         }
 
@@ -88,12 +82,10 @@ public class BlockOreAM extends BlockOre
         Random rand = AMUtils.getWorldRandom(world, RANDOM);
         int size = range.get(rand);
 
-        if (fortune > 0)
-        {
+        if (fortune > 0) {
             int i = rand.nextInt(fortune + 2) - 1;
 
-            if (i < 0)
-            {
+            if (i < 0) {
                 i = 0;
             }
 
@@ -104,34 +96,29 @@ public class BlockOreAM extends BlockOre
     }
 
     @Override
-    public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
-    {
+    public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune) {
         VariantOre variant = state.getValue(variantProperty);
         return variant.hasDrop() ? variant.getDropXP().get(AMUtils.getWorldRandom(world, RANDOM)) : 0;
     }
 
     @Override
-    public ItemStack getItem(World world, BlockPos pos, IBlockState state)
-    {
+    public ItemStack getItem(World world, BlockPos pos, IBlockState state) {
         return owner.getStack(type, state.getValue(variantProperty));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list)
-    {
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
         owner.fillSubItems(type, variants, list);
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         return BlockStateToMetadata.getBlockStateFromMeta(getDefaultState(), meta, variantProperty);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         return BlockStateToMetadata.getMetaForBlockState(state, variantProperty);
     }
 }

@@ -3,8 +3,7 @@ package alfheimrsmoons.combo;
 import net.minecraft.block.material.MapColor;
 import zaggy1024.combo.variant.IMetadata;
 
-public enum VariantTree implements IMetadata<VariantTree>
-{
+public enum VariantTree implements IMetadata<VariantTree> {
     BEECH("beech", MapColor.WOOD),
     ELM("elm", MapColor.OBSIDIAN),
     REDBUD("redbud", MapColor.SAND),
@@ -15,32 +14,27 @@ public enum VariantTree implements IMetadata<VariantTree>
     private final String name;
     private final MapColor mapColor;
 
-    VariantTree(String name, MapColor mapColor)
-    {
+    VariantTree(String name, MapColor mapColor) {
         this.name = name;
         this.mapColor = mapColor;
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     @Override
-    public String getUnlocalizedName()
-    {
+    public String getTranslationKey() {
         return name;
     }
 
-    public MapColor getMapColor()
-    {
+    public MapColor getMapColor() {
         return mapColor;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return name;
     }
 }

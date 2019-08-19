@@ -11,12 +11,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.MapGenCaves;
 
-public class MapGenCavesAM extends MapGenCaves
-{
+public class MapGenCavesAM extends MapGenCaves {
     // TODO check for Alfheimr equivalents: Blocks.hardened_clay, Blocks.stained_hardened_clay, Blocks.sandstone, Blocks.red_sandstone, Blocks.mycelium
     @Override
-    protected boolean canReplaceBlock(IBlockState state, IBlockState up)
-    {
+    protected boolean canReplaceBlock(IBlockState state, IBlockState up) {
         Block block = state.getBlock();
         return block instanceof BlockShale
                 || block instanceof BlockSoil
@@ -27,8 +25,7 @@ public class MapGenCavesAM extends MapGenCaves
     }
 
     @Override
-    protected boolean isOceanBlock(ChunkPrimer data, int x, int y, int z, int chunkX, int chunkZ)
-    {
+    protected boolean isOceanBlock(ChunkPrimer data, int x, int y, int z, int chunkX, int chunkZ) {
         return data.getBlockState(x, y, z).getMaterial() == Material.WATER;
     }
 }

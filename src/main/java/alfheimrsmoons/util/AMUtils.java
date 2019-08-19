@@ -5,10 +5,8 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class AMUtils
-{
-    public static Random getWorldRandom(IBlockAccess world, Random defaultRandom)
-    {
+public class AMUtils {
+    public static Random getWorldRandom(IBlockAccess world, Random defaultRandom) {
         return world instanceof World ? ((World) world).rand : defaultRandom;
     }
 }

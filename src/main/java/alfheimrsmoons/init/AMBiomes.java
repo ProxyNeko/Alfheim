@@ -5,15 +5,14 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.BiomeProperties;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static net.minecraftforge.common.BiomeDictionary.Type.*;
 
-public class AMBiomes
-{
+public class AMBiomes {
     private static final Map<Biome, Biome> BIOMES_HILLS;
 
     public static final Biome LAKE = new BiomeOceanAM(new BiomeProperties("Lake").setBaseHeight(-1.0F).setHeightVariation(0.1F)).setRegistryName("lake");
@@ -28,8 +27,7 @@ public class AMBiomes
     public static final Biome FLOODED_FOREST = new BiomeFloodedForest(new Biome.BiomeProperties("Flooded Forest").setBaseHeight(-0.2F).setHeightVariation(0.1F).setTemperature(0.8F).setRainfall(0.9F)).setRegistryName("flooded_forest");
     public static final Biome VELD = new BiomeVeld(new BiomeProperties("Veld").setBaseHeight(0.125F).setHeightVariation(0.05F).setTemperature(2.0F).setRainfall(0.0F).setRainDisabled()).setRegistryName("veld");
 
-    static
-    {
+    static {
         BiomeManager.oceanBiomes.add(LAKE);
         BiomeManager.oceanBiomes.add(DEEP_LAKE);
 
@@ -43,8 +41,7 @@ public class AMBiomes
         BIOMES_HILLS.put(WOODS, WOODS_HILLS);
     }
 
-    public static void registerBiomes()
-    {
+    public static void registerBiomes() {
         registerBiome(LAKE, BiomeDictionary.Type.OCEAN);
         registerBiome(DEEP_LAKE, BiomeDictionary.Type.OCEAN);
         registerBiome(STREAM, BiomeDictionary.Type.RIVER);
@@ -58,14 +55,13 @@ public class AMBiomes
         registerBiome(VELD, HOT, DRY, SANDY);
     }
 
-    private static void registerBiome(Biome biome, BiomeDictionary.Type... dictTypes)
-    {
-        GameRegistry.register(biome);
-        BiomeDictionary.registerBiomeType(biome, dictTypes);
+    private static void registerBiome(Biome biome, BiomeDictionary.Type... dictTypes) {
+        //I like the future-proofing that will probably last until Lex changes it on a whim tomorrow.
+        ForgeRegistries.BIOMES.register(biome);
+        BiomeDictionary.addTypes(biome, dictTypes);
     }
 
-    public static Biome getHills(Biome biome)
-    {
+    public static Biome getHills(Biome biome) {
         return BIOMES_HILLS.getOrDefault(biome, biome);
     }
 }

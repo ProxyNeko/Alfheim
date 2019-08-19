@@ -11,8 +11,7 @@ import zaggy1024.combo.VariantsOfTypesCombo;
 import java.util.Arrays;
 import java.util.List;
 
-public class ComboTools extends VariantsOfTypesCombo<VariantToolMaterial>
-{
+public class ComboTools extends VariantsOfTypesCombo<VariantToolMaterial> {
     public static final ObjectType<VariantToolMaterial, Block, ItemSwordAM> SWORD =
             ObjectType.createItem(VariantToolMaterial.class, "sword", ItemSwordAM.class)
                     .setTypeNamePosition(TypeNamePosition.POSTFIX);
@@ -35,14 +34,12 @@ public class ComboTools extends VariantsOfTypesCombo<VariantToolMaterial>
 
     public static final List<? extends ObjectType<VariantToolMaterial, ?, ?>> TYPES = Arrays.asList(SWORD, SHOVEL, PICKAXE, AXE, HOE);
 
-    public ComboTools()
-    {
+    public ComboTools() {
         super("tools", TYPES, VariantToolMaterial.class, Arrays.asList(VariantToolMaterial.values()));
         setNames(AlfheimrsMoons.MOD_ID, AlfheimrsMoons.UNLOCALIZED_PREFIX);
     }
 
-    public void addRecipes(VariantToolMaterial variant, ItemStack material)
-    {
+    public void addRecipes(VariantToolMaterial variant, ItemStack material) {
         AMRecipes.addShapedRecipe(getStack(SWORD, variant), "X", "X", "#", '#', "stickWood", 'X', material);
         AMRecipes.addShapedRecipe(getStack(SHOVEL, variant), "X", "#", "#", '#', "stickWood", 'X', material);
         AMRecipes.addShapedRecipe(getStack(PICKAXE, variant), "XXX", " # ", " # ", '#', "stickWood", 'X', material);

@@ -8,10 +8,9 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,8 +24,7 @@ import zaggy1024.util.BlockStateToMetadata;
 
 import java.util.List;
 
-public class BlockBioluminescenceTorch extends BlockTorch
-{
+public class BlockBioluminescenceTorch extends BlockTorch {
     @BlockProperties
     public static final IProperty<?>[] PROPERTIES = {FACING};
 
@@ -38,8 +36,7 @@ public class BlockBioluminescenceTorch extends BlockTorch
 
     public BlockBioluminescenceTorch(VariantsOfTypesCombo<VariantBioluminescence> owner,
                                      ObjectType<VariantBioluminescence, ? extends BlockBioluminescenceTorch, ? extends ItemBlockMulti<VariantBioluminescence>> type,
-                                     List<VariantBioluminescence> variants, Class<VariantBioluminescence> variantClass)
-    {
+                                     List<VariantBioluminescence> variants, Class<VariantBioluminescence> variantClass) {
         super();
 
         this.owner = owner;
@@ -58,63 +55,35 @@ public class BlockBioluminescenceTorch extends BlockTorch
     }
 
     @Override
-    public int damageDropped(IBlockState state)
-    {
+    public int damageDropped(IBlockState state) {
         return owner.getItemMetadata(type, state.getValue(variantProperty));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list)
-    {
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
         owner.fillSubItems(type, variants, list);
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         return BlockStateToMetadata.getBlockStateFromMeta(getDefaultState(), meta, variantProperty, FACING);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         return BlockStateToMetadata.getMetaForBlockState(state, variantProperty, FACING);
     }
 
-    @Override
-    public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
-    {
-        IBlockState state = getStateFromMeta(meta);
-
-        if (canPlaceAt(world, pos, facing))
-        {
-            return state.withProperty(FACING, facing);
-        }
-        else
-        {
-            for (EnumFacing face : EnumFacing.Plane.HORIZONTAL)
-            {
-                if (world.isSideSolid(pos.offset(face.getOpposite()), face, true))
-                {
-                    return state.withProperty(FACING, face);
-                }
-            }
-
-            return state;
-        }
-    }
 
     /* ======================================== BlockTorch START ===================================== */
 
-    private boolean canPlaceAt(World world, BlockPos pos, EnumFacing facing)
-    {
+    private boolean canPlaceAt(World world, BlockPos pos, EnumFacing facing) {
         BlockPos offset = pos.offset(facing.getOpposite());
         return facing.getAxis().isHorizontal() && world.isSideSolid(offset, facing, true) || facing.equals(EnumFacing.UP) && canPlaceOn(world, offset);
     }
 
-    private boolean canPlaceOn(World world, BlockPos pos)
-    {
+    private boolean canPlaceOn(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         return state.isSideSolid(world, pos, EnumFacing.UP) || state.getBlock().canPlaceTorchOnTop(state, world, pos);
     }

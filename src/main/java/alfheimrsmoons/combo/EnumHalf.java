@@ -3,8 +3,7 @@ package alfheimrsmoons.combo;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.util.IStringSerializable;
 
-public enum EnumHalf implements IStringSerializable
-{
+public enum EnumHalf implements IStringSerializable {
     BOTTOM("bottom"),
     TOP("top");
 
@@ -12,30 +11,25 @@ public enum EnumHalf implements IStringSerializable
 
     private final String name;
 
-    EnumHalf(String name)
-    {
+    EnumHalf(String name) {
         this.name = name;
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public boolean isBottom()
-    {
+    public boolean isBottom() {
         return this == BOTTOM;
     }
 
-    public boolean isTop()
-    {
+    public boolean isTop() {
         return this == TOP;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return name;
     }
 }

@@ -13,15 +13,13 @@ import zaggy1024.combo.VariantsOfTypesCombo.BlockProperties;
 
 import java.util.List;
 
-public class BlockShale extends BlockMulti<VariantShale>
-{
+public class BlockShale extends BlockMulti<VariantShale> {
     @BlockProperties
     public static final IProperty<?>[] PROPERTIES = new IProperty[0];
 
     public BlockShale(VariantsOfTypesCombo<VariantShale> owner,
                       ObjectType<VariantShale, ? extends BlockMulti<VariantShale>, ? extends Item> type,
-                      List<VariantShale> variants, Class<VariantShale> variantClass)
-    {
+                      List<VariantShale> variants, Class<VariantShale> variantClass) {
         super(owner, type, variants, variantClass, Material.ROCK, SoundType.STONE);
         setCreativeTab(AlfheimrsMoons.CREATIVE_TAB);
         setHardness(1.5F);

@@ -2,11 +2,9 @@ package alfheimrsmoons.network;
 
 import net.minecraftforge.fml.relauncher.Side;
 
-public class ProxyServer extends Proxy
-{
+public class ProxyServer extends Proxy {
     @Override
-    public Side getSide()
-    {
+    public Side getSide() {
         return Side.SERVER;
     }
 }

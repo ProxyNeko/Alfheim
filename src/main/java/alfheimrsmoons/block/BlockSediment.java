@@ -10,13 +10,11 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockSediment extends BlockFalling
-{
-    public BlockSediment()
-    {
+public class BlockSediment extends BlockFalling {
+    public BlockSediment() {
         super(Material.SAND);
         setRegistryName("sediment");
-        setUnlocalizedName(AlfheimrsMoons.UNLOCALIZED_PREFIX + "sediment");
+        setTranslationKey(AlfheimrsMoons.UNLOCALIZED_PREFIX + "sediment");
         setCreativeTab(AlfheimrsMoons.CREATIVE_TAB);
         setHardness(0.5F);
         setSoundType(SoundType.SAND);
@@ -26,8 +24,8 @@ public class BlockSediment extends BlockFalling
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int func_189876_x(IBlockState state) // getDustColor
+    public int getDustColor(IBlockState state) // getDustColor
     {
-        return BlockSand.EnumType.SAND.func_189865_a();
+        return BlockSand.EnumType.SAND.getDustColor();
     }
 }

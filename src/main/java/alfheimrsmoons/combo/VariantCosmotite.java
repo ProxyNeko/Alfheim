@@ -2,8 +2,7 @@ package alfheimrsmoons.combo;
 
 import zaggy1024.combo.variant.IMetadata;
 
-public enum VariantCosmotite implements IMetadata<VariantCosmotite>
-{
+public enum VariantCosmotite implements IMetadata<VariantCosmotite> {
     NORMAL("normal", "cosmotite"),
     BRICKS("bricks", "cosmotite_bricks"),
     CHISELED("chiseled", "chiseled_cosmotite"),
@@ -12,32 +11,27 @@ public enum VariantCosmotite implements IMetadata<VariantCosmotite>
     private final String name;
     private final String resourceName;
 
-    VariantCosmotite(String name, String resourceName)
-    {
+    VariantCosmotite(String name, String resourceName) {
         this.name = name;
         this.resourceName = resourceName;
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     @Override
-    public String getUnlocalizedName()
-    {
+    public String getTranslationKey() {
         return name;
     }
 
-    public String getResourceName()
-    {
+    public String getResourceName() {
         return resourceName;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return name;
     }
 }

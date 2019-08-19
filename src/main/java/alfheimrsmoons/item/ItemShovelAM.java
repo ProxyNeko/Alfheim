@@ -10,16 +10,14 @@ import zaggy1024.combo.VariantsOfTypesCombo;
 import zaggy1024.combo.VariantsOfTypesCombo.ItemVariantCount;
 
 @ItemVariantCount(1)
-public class ItemShovelAM extends ItemSpade
-{
+public class ItemShovelAM extends ItemSpade {
     public final VariantsOfTypesCombo<VariantToolMaterial> owner;
     public final ObjectType<VariantToolMaterial, Block, ? extends ItemShovelAM> type;
     public final VariantToolMaterial variant;
 
     public ItemShovelAM(VariantsOfTypesCombo<VariantToolMaterial> owner,
                         ObjectType<VariantToolMaterial, Block, ? extends ItemShovelAM> type,
-                        VariantToolMaterial variant, Class<VariantToolMaterial> variantClass)
-    {
+                        VariantToolMaterial variant, Class<VariantToolMaterial> variantClass) {
         super(variant.getMaterial());
 
         this.owner = owner;
@@ -30,8 +28,7 @@ public class ItemShovelAM extends ItemSpade
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack)
-    {
-        return owner.getUnlocalizedName(stack, super.getUnlocalizedName(stack));
+    public String getTranslationKey(ItemStack stack) {
+        return owner.getTranslationKey(stack, super.getTranslationKey(stack));
     }
 }

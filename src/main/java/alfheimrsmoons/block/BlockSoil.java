@@ -12,13 +12,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 
-public class BlockSoil extends Block
-{
-    public BlockSoil()
-    {
+public class BlockSoil extends Block {
+    public BlockSoil() {
         super(Material.GROUND);
         setRegistryName("soil");
-        setUnlocalizedName(AlfheimrsMoons.UNLOCALIZED_PREFIX + "soil");
+        setTranslationKey(AlfheimrsMoons.UNLOCALIZED_PREFIX + "soil");
         setCreativeTab(AlfheimrsMoons.CREATIVE_TAB);
         setDefaultState(blockState.getBaseState());
         setHardness(0.5F);
@@ -28,12 +26,10 @@ public class BlockSoil extends Block
     }
 
     @Override
-    public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable)
-    {
+    public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable) {
         EnumPlantType plantType = plantable.getPlantType(world, pos.offset(direction));
 
-        switch (plantType)
-        {
+        switch (plantType) {
             case Desert:
             case Plains:
                 return true;

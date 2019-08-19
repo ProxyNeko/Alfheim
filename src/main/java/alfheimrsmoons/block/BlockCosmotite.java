@@ -14,15 +14,13 @@ import zaggy1024.combo.VariantsOfTypesCombo.BlockProperties;
 
 import java.util.List;
 
-public class BlockCosmotite extends BlockMulti<VariantCosmotite>
-{
+public class BlockCosmotite extends BlockMulti<VariantCosmotite> {
     @BlockProperties
     public static final IProperty<?>[] PROPERTIES = new IProperty[0];
 
     public BlockCosmotite(VariantsOfTypesCombo<VariantCosmotite> owner,
                           ObjectType<VariantCosmotite, ? extends BlockMulti<VariantCosmotite>, ? extends Item> type,
-                          List<VariantCosmotite> variants, Class<VariantCosmotite> variantClass)
-    {
+                          List<VariantCosmotite> variants, Class<VariantCosmotite> variantClass) {
         super(owner, type, variants, variantClass, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE);
         setCreativeTab(AlfheimrsMoons.CREATIVE_TAB);
         setHardness(1.5F);

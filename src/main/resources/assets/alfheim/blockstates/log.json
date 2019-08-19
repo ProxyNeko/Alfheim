@@ -1,0 +1,59 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "alfheimrsmoons:log"
+  },
+  "variants": {
+    "variant": {
+      "beech": {
+        "textures": {
+          "end": "alfheimrsmoons:blocks/log_beech_top",
+          "side": "alfheimrsmoons:blocks/log_beech"
+        }
+      },
+      "elm": {
+        "textures": {
+          "end": "alfheimrsmoons:blocks/log_elm_top",
+          "side": "alfheimrsmoons:blocks/log_elm"
+        }
+      },
+      "redbud": {
+        "textures": {
+          "end": "alfheimrsmoons:blocks/log_redbud_top",
+          "side": "alfheimrsmoons:blocks/log_redbud"
+        }
+      },
+      "rune": {
+        "textures": {
+          "end": "alfheimrsmoons:blocks/log_rune_top",
+          "side": "alfheimrsmoons:blocks/log_rune"
+        }
+      },
+      "glow_bark": {
+        "textures": {
+          "end": "alfheimrsmoons:blocks/log_glow_bark_top",
+          "side": "alfheimrsmoons:blocks/log_glow_bark"
+        }
+      },
+      "red_runewood": {
+        "textures": {
+          "end": "alfheimrsmoons:blocks/log_red_runewood_top",
+          "side": "alfheimrsmoons:blocks/log_red_runewood"
+        }
+      }
+    },
+    "axis": {
+      "y": {},
+      "z": {
+        "x": 90
+      },
+      "x": {
+        "x": 90,
+        "y": 90
+      },
+      "none": {
+        "model": "alfheimrsmoons:bark"
+      }
+    }
+  }
+}

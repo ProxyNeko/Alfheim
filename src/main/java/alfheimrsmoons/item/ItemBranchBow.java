@@ -21,26 +21,19 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemBranchBow extends ItemBow
-{
-    public ItemBranchBow()
-    {
+public class ItemBranchBow extends ItemBow {
+    public ItemBranchBow() {
         super();
         setRegistryName("branch_bow");
-        setUnlocalizedName(AlfheimrsMoons.UNLOCALIZED_PREFIX + "branch_bow");
+        setTranslationKey(AlfheimrsMoons.UNLOCALIZED_PREFIX + "branch_bow");
         setCreativeTab(AlfheimrsMoons.CREATIVE_TAB);
-        addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter()
-        {
+        addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter() {
             @Override
             @SideOnly(Side.CLIENT)
-            public float apply(ItemStack stack, World world, EntityLivingBase entity)
-            {
-                if (entity == null)
-                {
+            public float apply(ItemStack stack, World world, EntityLivingBase entity) {
+                if (entity == null) {
                     return 0.0F;
-                }
-                else
-                {
+                } else {
                     ItemStack activeStack = entity.getActiveItemStack();
                     return activeStack != null && activeStack.getItem() instanceof ItemBranchBow ? (float) (stack.getMaxItemUseDuration() - entity.getItemInUseCount()) / 20.0F : 0.0F;
                 }
@@ -49,10 +42,8 @@ public class ItemBranchBow extends ItemBow
     }
 
     @Override
-    public void onPlayerStoppedUsing(ItemStack stack, World world, EntityLivingBase entityLiving, int timeLeft)
-    {
-        if (entityLiving instanceof EntityPlayer)
-        {
+    public void onPlayerStoppedUsing(ItemStack stack, World world, EntityLivingBase entityLiving, int timeLeft) {
+        if (entityLiving instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entityLiving;
             boolean infinite = player.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
             ItemStack arrowStack = findAmmo(player);
@@ -61,67 +52,56 @@ public class ItemBranchBow extends ItemBow
             i = ForgeEventFactory.onArrowLoose(arrowStack, world, (EntityPlayer) entityLiving, i, arrowStack != null || infinite);
             if (i < 0) return;
 
-            if (arrowStack != null || infinite)
-            {
-                if (arrowStack == null)
-                {
+            if (arrowStack != null || infinite) {
+                if (arrowStack == null) {
                     arrowStack = new ItemStack(AMItems.ROCK_ARROW);
                 }
 
                 float f = getArrowVelocity(i);
 
-                if ((double) f >= 0.1D)
-                {
+                if ((double) f >= 0.1D) {
                     boolean infiniteArrows = infinite && arrowStack.getItem() instanceof ItemArrowAM;
 
-                    if (!world.isRemote)
-                    {
+                    if (!world.isRemote) {
                         ItemArrowAM arrowItem = (ItemArrowAM) (arrowStack.getItem() instanceof ItemArrowAM ? arrowStack.getItem() : AMItems.ROCK_ARROW);
                         EntityArrowAM arrowEntity = arrowItem.createArrow(world, arrowStack, player);
-                        arrowEntity.setAim(player, player.rotationPitch, player.rotationYaw, 0.0F, f * 3.0F, 1.0F);
+                        arrowEntity.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, f * 3.0F, 1.0F);
 
-                        if (f == 1.0F)
-                        {
+                        if (f == 1.0F) {
                             arrowEntity.setIsCritical(true);
                         }
 
                         int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, arrowStack);
 
-                        if (j > 0)
-                        {
+                        if (j > 0) {
                             arrowEntity.setDamage(arrowEntity.getDamage() + (double) j * 0.5D + 0.5D);
                         }
 
                         int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, arrowStack);
 
-                        if (k > 0)
-                        {
+                        if (k > 0) {
                             arrowEntity.setKnockbackStrength(k);
                         }
 
-                        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, arrowStack) > 0)
-                        {
+                        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, arrowStack) > 0) {
                             arrowEntity.setFire(100);
                         }
 
                         arrowStack.damageItem(1, player);
 
-                        if (infiniteArrows)
-                        {
+                        if (infiniteArrows) {
                             arrowEntity.pickupStatus = EntityArrow.PickupStatus.CREATIVE_ONLY;
                         }
 
-                        world.spawnEntityInWorld(arrowEntity);
+                        world.spawnEntity(arrowEntity);
                     }
 
                     world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 
-                    if (!infiniteArrows)
-                    {
-                        --arrowStack.stackSize;
+                    if (!infiniteArrows) {
+                        arrowStack.shrink(1);
 
-                        if (arrowStack.stackSize == 0)
-                        {
+                        if (arrowStack.isEmpty()) {
                             player.inventory.deleteStack(arrowStack);
                         }
                     }
@@ -132,24 +112,16 @@ public class ItemBranchBow extends ItemBow
         }
     }
 
-    private ItemStack findAmmo(EntityPlayer player)
-    {
-        if (isArrow(player.getHeldItem(EnumHand.OFF_HAND)))
-        {
+    private ItemStack findAmmo(EntityPlayer player) {
+        if (isArrow(player.getHeldItem(EnumHand.OFF_HAND))) {
             return player.getHeldItem(EnumHand.OFF_HAND);
-        }
-        else if (isArrow(player.getHeldItem(EnumHand.MAIN_HAND)))
-        {
+        } else if (isArrow(player.getHeldItem(EnumHand.MAIN_HAND))) {
             return player.getHeldItem(EnumHand.MAIN_HAND);
-        }
-        else
-        {
-            for (int slot = 0; slot < player.inventory.getSizeInventory(); ++slot)
-            {
+        } else {
+            for (int slot = 0; slot < player.inventory.getSizeInventory(); ++slot) {
                 ItemStack stack = player.inventory.getStackInSlot(slot);
 
-                if (isArrow(stack))
-                {
+                if (isArrow(stack)) {
                     return stack;
                 }
             }

@@ -3,22 +3,18 @@ package alfheimrsmoons.world.gen.layer;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.gen.layer.*;
 
-public abstract class GenLayerAM extends GenLayer
-{
-    public GenLayerAM(long seed)
-    {
+public abstract class GenLayerAM extends GenLayer {
+    public GenLayerAM(long seed) {
         super(seed);
     }
 
-    public GenLayerAM(long seed, GenLayer parent)
-    {
+    public GenLayerAM(long seed, GenLayer parent) {
         super(seed);
         this.parent = parent;
     }
 
     // GenLayer.initializeAllBiomeGenerators
-    public static GenLayer[] initializeAllBiomeGenerators(long seed, WorldType worldType)
-    {
+    public static GenLayer[] initializeAllBiomeGenerators(long seed, WorldType worldType) {
         GenLayer baseLayer = new GenLayerIsland(1L);
         baseLayer = new GenLayerFuzzyZoom(2000L, baseLayer);
         baseLayer = new GenLayerAddIsland(1L, baseLayer);
@@ -42,8 +38,7 @@ public abstract class GenLayerAM extends GenLayer
         int biomeSize = 4;
         int riverSize = biomeSize;
 
-        if (worldType == WorldType.LARGE_BIOMES)
-        {
+        if (worldType == WorldType.LARGE_BIOMES) {
             biomeSize = 6;
         }
 
@@ -64,17 +59,14 @@ public abstract class GenLayerAM extends GenLayer
 
         biomeLayer = new GenLayerRareBiome(1001L, biomeLayer);
 
-        for (int i = 0; i < biomeSize; ++i)
-        {
+        for (int i = 0; i < biomeSize; ++i) {
             biomeLayer = new GenLayerZoom((long) (1000 + i), biomeLayer);
 
-            if (i == 0)
-            {
+            if (i == 0) {
                 biomeLayer = new GenLayerAddIsland(3L, biomeLayer);
             }
 
-            if (i == 1 || biomeSize == 1)
-            {
+            if (i == 1 || biomeSize == 1) {
                 biomeLayer = new GenLayerShoreAM(1000L, biomeLayer);
             }
         }
